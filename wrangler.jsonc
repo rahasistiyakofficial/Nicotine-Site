@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nicotine",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+
+  // Files in ./public are served as they are. The Worker handles everything else.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nicotine-downloads",
+      // Paste the id that `npx wrangler d1 create nicotine-downloads` prints.
+      "database_id": "PASTE-YOUR-DATABASE-ID-HERE"
+    }
+  ],
+
+  "vars": {
+    // DEMO link. Replace with the real APK link (see DEPLOY.md, step 6), then deploy again.
+    "DOWNLOAD_URL": "https://example.com/nicotine-demo.apk"
+  },
+
+  "observability": { "enabled": true }
+}
