@@ -17,7 +17,6 @@ docs/                     ← GitHub Pages serves this folder
    ├─ js/lungs.js         the 3D breathing lungs (three.js, loaded on demand)
    └─ img/                favicon, app icon, og.png (share preview)
 tool/og.html              source of og.png
-VOICEOVER.md              app overview video script
 ```
 
 ## Go live (one time)
