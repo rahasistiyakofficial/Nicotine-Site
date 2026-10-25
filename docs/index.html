@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Nicotine · Know your numbers</title>
+  <meta name="description" content="A private, offline cigarette tracker for Android. One tap logs it. See how many, what they cost, and what they do. Everything stays on your phone.">
+  <meta name="author" content="Rahas Istiyak">
+  <meta name="theme-color" content="#0F1214">
+  <link rel="canonical" href="https://rahasistiyakofficial.github.io/Nicotine-Site/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rahasistiyakofficial.github.io/Nicotine-Site/">
+  <meta property="og:title" content="Nicotine · Know your numbers">
+  <meta property="og:description" content="A private, offline cigarette tracker for Android. Everything stays on your phone.">
+  <meta property="og:image" content="https://rahasistiyakofficial.github.io/Nicotine-Site/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600&display=swap">
+  <!-- Only the taka sign, which neither font has (design.md §4). -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@500;600&text=%E0%A7%B3&display=swap">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav nav--hero">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Nicotine, back to top">
+        <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" fill="#000"/><path d="M292 742V282H436L588 548V282H732V742H588L436 476V742Z" fill="#fff"/><circle cx="770" cy="262" r="42" fill="#F4B63E"/></svg>
+        Nicotine
+      </a>
+      <nav aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn--ember btn--sm" data-download href="https://github.com/rahasistiyakofficial/Nicotine-Site/releases/latest" rel="nofollow">Download</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ Hero ============ -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Free for Android</p>
+          <h1>Know your <em>numbers.</em></h1>
+          <p class="lead">A quiet, private cigarette tracker. One tap logs it. Nicotine shows how many, what they cost, and what they do. Everything stays on your phone.</p>
+          <div class="cta-row">
+            <a class="btn btn--ember" data-download href="https://github.com/rahasistiyakofficial/Nicotine-Site/releases/latest" rel="nofollow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+              Download for Android
+            </a>
+            <a class="btn btn--ghost" href="#how">See how it works</a>
+          </div>
+          <ul class="trust">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>No account</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Works offline</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>No ads</li>
+            <li data-version>Version 1.0.0</li>
+          </ul>
+          <p class="count" data-count hidden></p>
+        </div>
+
+        <div class="hero-visual">
+          <div class="lung-stage">
+            <canvas id="lungs" aria-hidden="true"></canvas>
+            <!-- Flat lung, shown until the 3D one is ready (or if it can't run). -->
+            <svg class="flat" viewBox="0 0 240 240" aria-hidden="true">
+              <path d="M113 16h14v76h-14z" fill="#E9D9D2" opacity=".85"/>
+              <path d="M112 86c-10 8-22 12-34 10-24 12-40 52-38 92 1 22 20 30 42 22 22-8 34-30 34-62z" fill="currentColor"/>
+              <path d="M128 86c10 8 22 12 34 10 24 12 40 52 38 92-1 22-20 30-42 22-8-3-14-8-18-14 10-6 12-18 6-26-10-4-16-14-18-22z" fill="currentColor"/>
+              <path d="M120 92c-8 10-20 16-30 24M120 92c8 10 20 16 30 24M96 112c-6 18-8 40-6 60M144 112c6 18 8 40 6 60" stroke="#000" stroke-opacity=".18" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span class="stage-tag">Illustration · Not a medical image</span>
+          </div>
+
+          <div class="calc" role="group" aria-labelledby="calc-label">
+            <div class="calc-head">
+              <label for="per-day" id="calc-label">How many a day?</label>
+              <output for="per-day" class="num"><span id="per-day-out">12</span><small>a day</small></output>
+            </div>
+            <input type="range" id="per-day" min="0" max="40" step="1" value="12">
+            <dl class="calc-out" aria-live="polite">
+              <div><dt>A month</dt><dd id="c-month">৳6,749</dd></div>
+              <div><dt>A year</dt><dd id="c-year">৳81,030</dd></div>
+              <div><dt>Packs a month</dt><dd id="c-packs">18</dd></div>
+            </dl>
+            <p class="calc-note">At <span class="num">৳18.50</span> a stick. The app uses your own brands and prices.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ How it works ============ -->
+    <section class="section" id="how">
+      <div class="wrap split">
+        <div class="reveal">
+          <p class="eyebrow">How it works</p>
+          <h2 class="h2">One tap. Under a second.</h2>
+          <p class="lead">Logging is the only thing you do every day, so it takes nothing. Everything else can wait until you want to look.</p>
+          <ol class="howto">
+            <li><b>Tap +</b><span>It's counted, with the right price for that brand, pack or single.</span></li>
+            <li><b>Hold +</b><span>Pick another brand, or record a pack you just bought.</span></li>
+            <li><b>Changed your mind?</b><span>Undo stays on screen for five seconds.</span></li>
+          </ol>
+        </div>
+
+        <div class="phone-col reveal" data-delay="1">
+          <div class="phone">
+            <div class="screen">
+              <p class="date" aria-hidden="true">Thursday, 16 October</p>
+              <p class="greet" aria-hidden="true">Good evening</p>
+
+              <div class="hero-card" aria-hidden="true">
+                <div class="hc-top">
+                  <span class="eyebrow">Today</span>
+                  <span class="pill">Cutting down · 10 a day</span>
+                </div>
+                <div class="hc-mid">
+                  <div class="big"><span id="m-count">7</span><small>of 10</small></div>
+                  <div class="ring">
+                    <svg viewBox="0 0 76 76"><circle class="track" cx="38" cy="38" r="32"/><circle class="bar" id="m-ring" cx="38" cy="38" r="32" stroke-dasharray="201.06" stroke-dashoffset="60.32"/></svg>
+                    <span class="ring-label" id="m-left">3<br>left</span>
+                  </div>
+                </div>
+                <div class="timeline" id="m-timeline">
+                  <span class="elapsed"></span>
+                  <span class="tick" style="left:9.3%"></span>
+                  <span class="tick" style="left:17.6%"></span>
+                  <span class="tick" style="left:27.8%"></span>
+                  <span class="tick" style="left:40.7%"></span>
+                  <span class="tick" style="left:50.5%"></span>
+                  <span class="tick" style="left:63.9%"></span>
+                  <span class="tick" style="left:75.6%"></span>
+                  <span class="now"></span>
+                </div>
+                <div class="tl-labels"><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>12 AM</span></div>
+                <div class="hc-foot">
+                  <span><b class="num" id="m-spent">৳125.00</b> spent</span>
+                  <span>Last one <b id="m-last">2h 36m</b></span>
+                </div>
+              </div>
+
+              <div class="pair" aria-hidden="true">
+                <div class="tint sage">
+                  <div class="eyebrow"><span>This week</span><span>▼ 36%</span></div>
+                  <div class="val">58</div>
+                  <div class="money num">৳1,046</div>
+                  <div class="mini-bars"><i style="height:70%"></i><i style="height:55%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:58%"></i><i class="today" style="height:45%"></i><i class="future"></i></div>
+                </div>
+                <div class="tint lilac">
+                  <div class="eyebrow"><span>This month</span><span>16 / 31</span></div>
+                  <div class="val">212</div>
+                  <div class="money num">৳3,850</div>
+                  <svg viewBox="0 0 62 26" style="margin-top:6px;height:26px" fill="none"><path d="M2 8 C10 6 14 12 22 10 S34 14 40 13 S52 19 58 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="58" cy="20" r="3" fill="currentColor"/></svg>
+                </div>
+              </div>
+
+              <div class="lung-card" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M24 6v14" stroke="#9E7B70" stroke-width="3" stroke-linecap="round"/><path d="M22 18c-3 2-6 3-9 2-5 3-8 11-7 18 1 4 5 5 9 3 4-2 7-6 7-12z" fill="currentColor"/><path d="M26 18c3 2 6 3 9 2 5 3 8 11 7 18-1 4-5 5-9 3-4-2-7-6-7-12z" fill="currentColor"/></svg>
+                <div>
+                  <div class="eyebrow">Lung load</div>
+                  <div class="v">44 <small>Moderate</small></div>
+                </div>
+                <div class="co">
+                  <div class="eyebrow">CO normal in</div>
+                  <div class="v num" style="font-size:15px">9h 24m</div>
+                  <div class="meter"><i></i></div>
+                </div>
+              </div>
+
+              <div class="toast" id="m-toast" role="status" aria-live="polite">
+                <span id="m-toast-text">Logged · single · ৳18.50</span>
+                <button type="button" id="m-undo">Undo</button>
+              </div>
+
+              <div class="tabbar">
+                <span class="on" aria-hidden="true">Home</span>
+                <span aria-hidden="true">Stats</span>
+                <button class="log-btn" id="m-log" type="button" aria-label="Try it: log one cigarette in this demo">
+                  <span class="try-hint" id="m-hint" aria-hidden="true">Try it</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <span aria-hidden="true">Lungs</span>
+                <span aria-hidden="true">Brands</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Features ============ -->
+    <section class="section section--tight" id="features">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="eyebrow">What it does</p>
+          <h2 class="h2">Honest numbers, built for how we buy.</h2>
+          <p class="lead">One stick at a time, or a pack. At prices that keep changing. Nicotine keeps the maths right so you don't have to.</p>
+        </div>
+
+        <div class="bento">
+          <article class="tile b-3 reveal">
+            <h3>Packs and singles</h3>
+            <p>Bought a pack? Each one from it counts at its share of what you paid, and the app shows how many are left.</p>
+            <div class="demo">
+              <div class="pack-row">
+                <label for="pack-price">Price you paid for 20</label>
+                <output for="pack-price" id="pack-price-out" class="num">৳450</output>
+              </div>
+              <input type="range" id="pack-price" min="380" max="520" step="10" value="450">
+              <div class="pack-result">
+                <div class="eyebrow">Each cigarette from this pack</div>
+                <div class="each" id="pack-each">৳22.50</div>
+                <p id="pack-note">Saves ৳0.50 a stick vs singles (৳23.00)</p>
+              </div>
+              <div class="pack-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <p class="pack-caption">13 of 20 left</p>
+            </div>
+          </article>
+
+          <article class="tile b-3 reveal" data-delay="1">
+            <h3>Prices that remember</h3>
+            <p>Each cigarette keeps the price it had when you logged it. Change a price from now, from tomorrow, or from a date in the past.</p>
+            <div class="demo">
+              <ol class="price-steps">
+                <li><div class="when">Until today, 6:48 PM</div><div class="what"><b class="num">৳10.00</b> · your 9 logs so far keep this price</div></li>
+                <li class="new"><div class="when">From Fri 17 Oct</div><div class="what"><b class="num">৳12.00</b> · about <span class="num">৳17</span> more a month at your pace</div></li>
+              </ol>
+            </div>
+          </article>
+
+          <article class="tile b-2 reveal">
+            <h3>Stats that make sense</h3>
+            <p>Day, week, month and year. Which brands, which hours, how much money.</p>
+            <div class="demo">
+              <div class="bars" role="img" aria-label="This week: 9, 8, 10, 7, 9, 8 and 7 so far today. Daily limit 10.">
+                <span data-d="Sa" style="height:82%"></span>
+                <span data-d="Su" style="height:72%"></span>
+                <span data-d="Mo" style="height:92%"></span>
+                <span data-d="Tu" style="height:64%"></span>
+                <span data-d="We" style="height:82%"></span>
+                <span data-d="Th" style="height:72%"></span>
+                <span data-d="Fr" class="today" style="height:62%"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tile b-2 reveal" data-delay="1">
+            <h3>If you stop now</h3>
+            <p>Your lungs as an estimate, plus what changes with time. From WHO and published research.</p>
+            <div class="demo">
+              <ul class="miles">
+                <li><span class="st done"></span><span class="t">20 min</span><span>Heart rate drops</span></li>
+                <li><span class="st active"></span><span class="t">12 h</span><span>CO back to normal</span></li>
+                <li><span class="st"></span><span class="t">2–12 wk</span><span>Lung function improves</span></li>
+                <li><span class="st"></span><span class="t">1 yr</span><span>Heart risk halves</span></li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tile b-2 reveal" data-delay="2">
+            <h3>Gentle warnings</h3>
+            <p>Past your limit? One plain sentence. No shame, no streaks, no confetti.</p>
+            <div class="demo">
+              <div class="warn" aria-hidden="true">
+                <div class="warn-top">
+                  <span class="warn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg></span>
+                  <div><b>Over your limit</b><p>That's 11 today, one over your limit of 10.</p></div>
+                </div>
+                <div class="warn-actions"><span>Undo</span><span>Breathe</span><span>OK</span></div>
+                <div class="warn-line"><i></i></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="tile b-wide reveal">
+            <h3>On your home screen</h3>
+            <p>A widget shows today against your limit. The medium one has its own + to log without opening the app.</p>
+            <div class="demo">
+              <div class="widgets" aria-hidden="true">
+                <div class="widget small">
+                  <span class="eyebrow">Today</span>
+                  <div class="w-big">7<small> / 10</small></div>
+                  <span class="w-sub">Last one 4:12 PM</span>
+                </div>
+                <div class="widget medium">
+                  <span class="eyebrow">Today · This week</span>
+                  <div class="w-row">
+                    <div><div class="w-big">7<small> / 10</small></div><span class="w-sub">58 this week · <span class="num">৳1,046</span></span></div>
+                    <span class="w-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="tile b-wide reveal" data-delay="1">
+            <h3>A minute to breathe</h3>
+            <p>When a craving hits: breathe in for 4, hold for 4, out for 6. Then note whether it passed.</p>
+            <div class="demo">
+              <div class="breathe" aria-hidden="true">
+                <div class="b-circle"><svg viewBox="0 0 112 112"><circle class="track" cx="56" cy="56" r="53"/><circle class="bar" cx="56" cy="56" r="53"/></svg></div>
+                <div>
+                  <div class="b-words"><span>Breathe in</span><span>Hold</span><span>Breathe out</span></div>
+                  <small>One minute, any time</small>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <ul class="also reveal" aria-label="Also included">
+          <li class="chip">45 local brands with prices</li>
+          <li class="chip">Add your own brand and photo</li>
+          <li class="chip">Light and dark</li>
+          <li class="chip">Day and week recaps, off by default</li>
+          <li class="chip">Cut down or quit by a date</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Privacy ============ -->
+    <section class="section privacy" id="privacy">
+      <div class="wrap privacy-grid">
+        <div class="reveal">
+          <p class="eyebrow">Private by default</p>
+          <p class="big-quote">Everything stays on this phone.</p>
+          <p class="lead">Your habit is your business. No sign-up, no server, no cloud. It works the same in airplane mode.</p>
+        </div>
+        <ul class="facts reveal" data-delay="1">
+          <li class="fact">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+            <b>No account</b><span>No email, no phone number, no password.</span>
+          </li>
+          <li class="fact">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5.5 12a10 10 0 0 1 13 0"/><path d="M9 15.5a5 5 0 0 1 6 0"/><path d="M3 3l18 18"/></svg></span>
+            <b>Works offline</b><span>Nothing you log ever leaves the phone.</span>
+          </li>
+          <li class="fact">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+            <b>No ads, no trackers</b><span>No analytics inside the app. Nobody sees your numbers, me included.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Story ============ -->
+    <section class="section" id="story">
+      <div class="wrap">
+        <div class="story-card reveal">
+          <div>
+            <p class="eyebrow">Why it exists</p>
+            <h2 class="h2">Made to solve my own problem.</h2>
+          </div>
+          <blockquote>
+            <p>I wanted to know how many I really smoked in a day, and what it was costing me. Nothing I tried fit the way we buy cigarettes here, so I <mark>built my own</mark>.</p>
+            <p>It helped me see my numbers clearly. So I thought, why not share it with you too.</p>
+            <div class="byline">
+              <span class="avatar" aria-hidden="true">RI</span>
+              <div><b>Rahas Istiyak</b><span class="role">Design and development</span></div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Install ============ -->
+    <section class="section section--tight" id="install">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="eyebrow">Install</p>
+          <h2 class="h2">Ready in about a minute.</h2>
+          <p class="lead">Nicotine isn't on the Play Store yet, so you install it from the file. Here's how.</p>
+        </div>
+        <ol class="steps">
+          <li class="reveal"><h3>Download</h3><p>Tap <b>Download for Android</b> on your phone. The file is called <code>nicotine.apk</code>.</p></li>
+          <li class="reveal" data-delay="1"><h3>Open the file</h3><p>Open it from the download notification, or from the Downloads folder.</p></li>
+          <li class="reveal" data-delay="2"><h3>Allow the install</h3><p>If Android asks, turn on <b>Install unknown apps</b> for your browser, then go back.</p></li>
+          <li class="reveal" data-delay="3"><h3>Answer nine questions</h3><p>Your age, how many a day, your brand and your goal. Then tap + whenever you smoke.</p></li>
+        </ol>
+        <div class="note reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          <p>Google Play Protect may say it doesn't recognise the app. That's normal for apps installed outside the Play Store. Tap <b>More details</b>, then <b>Install anyway</b>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section" id="faq">
+      <div class="wrap faq-grid">
+        <div class="reveal">
+          <p class="eyebrow">Questions</p>
+          <h2 class="h2">Good to know.</h2>
+          <p class="lead">Something else? <a href="mailto:rahasistiyak.official@gmail.com">Email me</a>.</p>
+        </div>
+        <div class="faq-list reveal" data-delay="1">
+          <details>
+            <summary>Is it free?</summary>
+            <div><p>Yes. No ads, no subscription, no in-app purchases.</p></div>
+          </details>
+          <details>
+            <summary>Where is my data stored?</summary>
+            <div><p>Only on your phone. There's no account and no server, so nobody else can see it. If you uninstall the app or clear its data, your logs are gone.</p></div>
+          </details>
+          <details>
+            <summary>Does it need the internet?</summary>
+            <div><p>No. Every feature works offline.</p></div>
+          </details>
+          <details>
+            <summary>Is this medical advice?</summary>
+            <div><p>No. The lung picture and health numbers are illustrative estimates based on WHO and published research, and the app lists every source. It is not a medical assessment. For help quitting, talk to a doctor.</p></div>
+          </details>
+          <details>
+            <summary>Can it help me quit?</summary>
+            <div><p>It can track a quit date, show how long you've been smoke-free, and show health milestones as they pass. It won't lecture you, and a slip isn't a restart.</p></div>
+          </details>
+          <details>
+            <summary>Is there an iPhone version?</summary>
+            <div><p>Not yet. Android only for now.</p></div>
+          </details>
+          <details>
+            <summary>My brand isn't listed.</summary>
+            <div><p>Add it in a few seconds: name, single price, pack price, and a photo if you like. You can change any price later.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Final CTA ============ -->
+    <section class="section section--tight">
+      <div class="wrap">
+        <div class="final reveal">
+          <svg class="mark" viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" fill="#000"/><path d="M292 742V282H436L588 548V282H732V742H588L436 476V742Z" fill="#fff"/><circle cx="770" cy="262" r="42" fill="#F4B63E"/></svg>
+          <h2>Start with today's number.</h2>
+          <p>Free for Android. No account. Everything stays on your phone.</p>
+          <div class="cta-row">
+            <a class="btn btn--ember" data-download href="https://github.com/rahasistiyakofficial/Nicotine-Site/releases/latest" rel="nofollow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+              Download for Android
+            </a>
+          </div>
+          <p class="count" data-count hidden></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <a class="brand" href="#top" aria-label="Nicotine, back to top">
+          <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" fill="#000"/><path d="M292 742V282H436L588 548V282H732V742H588L436 476V742Z" fill="#fff"/><circle cx="770" cy="262" r="42" fill="#F4B63E"/></svg>
+          Nicotine
+        </a>
+        <div class="foot-links">
+          <a href="https://www.facebook.com/rahas.istiyak" rel="noopener">Facebook</a>
+          <a href="https://www.linkedin.com/in/rahas-istiyak/" rel="noopener">LinkedIn</a>
+          <a href="mailto:rahasistiyak.official@gmail.com">Email</a>
+        </div>
+      </div>
+      <p><b style="color:var(--ink)">© 2026 Rahas Istiyak.</b> All rights reserved.</p>
+      <p class="small">Brand names belong to their owners. Nicotine is not affiliated with or endorsed by any tobacco company. Not medical advice. This site sets no cookies and runs no analytics.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/config.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
